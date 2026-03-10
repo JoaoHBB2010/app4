@@ -13,7 +13,6 @@ const novaTarefa = ref('');
 const aviso = ref(false)
 function add(){
     
-
     if(novaTarefa.value.length < 5){
         aviso.value = true;
     }
@@ -22,8 +21,9 @@ function add(){
         novaTarefa.value = '';
     }
 }
-function remover(){
-    tarefas.value.pop()
+function deleteTarefa(item){
+    const posicao = tarefas.value.indexOf(item);
+    tarefas.value.splice(posicao,1);
 }
 
 </script>
@@ -33,11 +33,11 @@ function remover(){
         <h1>Lista de Tarefas</h1>
         <input type="text" v-model="novaTarefa" @keyup.enter = "add" @input="aviso = false">
         <button @click="add" >Add</button> 
-        <button @click="remover">remover</button>
      <div v-show="aviso" class="aviso">Insira ao menos 5 caracteres </div>
         <ul>
             <li v-for="tarefa in tarefas" :key="tarefa">
                 {{ tarefa }}
+                <span><a href="#" @click.prevent="deleteTarefa(tarefa)">Excluir</a></span>
             </li>
         </ul>
     </div>
@@ -48,6 +48,5 @@ function remover(){
 .aviso{
     color: white;
     background: red;
-    font-size: 5rem;
 }
 </style>
